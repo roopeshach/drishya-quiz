@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Quiz</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/owl.carousel.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet"> 
+	<style>
+
+select {
+    border:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+}
+
+
+
+	</style>
+  	<body style="font-family: 'Roboto Mono', monospace; ">
+		<div class="quiz-top-area">
+			
+			<h1 class="text-center">CSITAN Quiz</h1>
+			
+			<div class="quiz-countdown">
+				
+				
+			</div>
+		</div>
+		
+		<!-- <h4 class="text-info ml-4 mt-1">Organized By:</h4> -->
+		<a href="/" > <img style="margin-left:30px;"class=" float-left mt-0 mr-5" src="{% static 'img/csitan.png' %}" alt="CSITAN Pokhara" width="150px"height="100px"> </a>
+
+		<div class="container">
+			<div class="">
+				<div class="card m-3 text-center">
+					<div class="form-check form-check-inline">
+						<select name="user_id"  class="form-control m-2 p-2 text-center select2bs4" id="users">
+							<option value="">Group Name</option>
+							{% for u in users %}
+								<option value="{{u.id}}" class="btn btn-success">{{u.name}}</option>
+							{% endfor %}
+							
+
+						</select>
+						
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	
+		<div class="wrapper position-relative">
+			<div class="wizard-content-1 clearfix">
+			
+				<div class="step-inner-content clearfix position-relative">
+					
+						<form class="multisteps-form__form" action="" id="quiz" method="POST">
+						{% csrf_token %}
+						<div class="form-area position-relative">
+							<div class="multisteps-form__panel  js-active" data-animation="fadeIn">
+								<div class="wizard-forms clearfix position-relative">
+									{% comment %} question score {% endcomment %}
+									<div class="mr-5 quiz-score-area text-right">
+										<div class="quiz-score-box">
+											<h4> Question Score : {{question.score}} </h4>
+											
+											<div class="card float-right m-3 p-3">
+												
+												<h3 id="time" class="text-info">{{round.time}}:00</h3>
+											</div>
+											<div class="card float-right m-3 p-3">
+												<button class="btn btn-outline-info" id="start">Start </button>
+											</div>
+											
+										</div>
+
+										</div>
+									<div class="quiz-title text-center">
+										<h2 id="mouse">{{round.name}}</h2>
+										<span>Question {{forloop.counter}}</span>
+										
+										<p>{{question.question_text}}</p>
+									</div>
+									
+									<div class="quiz-option-selector clearfix">
+										<ul>
+										{% for a in answers %}
+											<li>
+												<label class="answer">
+													<input type="radio" name="quiz" value="{{a.id}}" class="exp-option-box">
+													<span class="exp-number text-uppercase">{{a.index}}</span>
+													<span class="exp-label">{{a.answer_text}}</span>
+													<span class="checkmark-border-wrong"></span>
+												</label>
+											</li>
+
+										{% endfor %}	
+										<li class="ml-5 mt-5 float-right text-center ">
+												<label class="answer">
+													<span class="exp-label">
+													<button style="height:70px;" id="submit" class="btn btn-outline-info btn-block"> <h4> Submit</h4> </button>
+													</span>
+													<span class="checkmark-border-wrong"></span>
+												</label>
+											</li>		
+										</ul>
+									</div>
+									
+									<div class="actions clearfix">
+										<ul>
+											
+												{% if previous_question.id %}
+												<li class="">
+												<a href="/round/{{round.id}}/question/{{previous_question.id}}"> <span class="js-btn-next" title="PREV">Previous Question</span> </a>
+												</li>
+												{% endif %}
+											
+												{% if next_question.id %}
+												<li style="float:right">
+											<span class="js-btn-next" title="NEXT"><a href="/round/{{round.id}}/question/{{next_question.id}}">Next Question</span></a>
+											</li>
+												{% endif %}
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- step 1 -->
+							
+					</form>
+					
+				</div>
+			</div>
+		</div>
+		    <footer style=" height:130px;" class="footer card">
+      <div class="">
+        <div class="row ml-2">
+          <div class="col-md-5 ">
+            <h5 class="text-info ">Application Partner</h5>
+            <img class="" src="{% static 'img/drishya.png' %}" alt="Drishya Web" width="150px"height="100px">
+          </div>
+          <div class="col-md-5">
+            <h5 class="text-danger">Organized By:</h5>
+            <img class="" src="{% static 'img/csitan.png' %}" alt="CSITAN Pokhara" width="150px"height="100px">
+          </div>
+          <div class="col-md-2">
+            <div class="card mt-3 pb-1 mr-3">
+            <h4 class="text-info mt-3 text-center">
+              Developed By <br>
+              <span class="text-secondary">Rupesh Acharya</span>
+            </h4>
+           </div>
+          </div>
+          
+        </div>
+    
+
+
+      </div>
+    </footer>
+		<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'assets/js/popper.min.js' %}"></script>
+		<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="{% static 'assets/js/form-step.js' %}"></script>
+		<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+		<script src="{% static 'assets/js/main.js' %}"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<!-- <script src="assets/js/switch.js"></script> -->
+	
+		<script>
+			$('#submit').on('click', function(e){
+				console.log('clicked');
+				e.preventDefault();
+				var user_id = $('#users').val();
+				var answer_id = $('input[name=quiz]:checked').val();
+				var csrf_token = $('input[name=csrfmiddlewaretoken]').val();
+				console.log(user_id);
+				console.log(answer_id);
+				console.log(csrf_token);
+				$.ajax({
+					url: 'http://127.0.0.1:8000/check-answer',
+					type: 'POST',
+					data: {
+						user_id: user_id,
+						answer_id: answer_id, 
+						csrfmiddlewaretoken: csrf_token,
+					},
+					success: function(data){
+						console.log(data);
+						if(data.correct == "True"){
+							swal({
+								title: "Good job!",
+								text: data.message,
+								icon: "success",
+								button: "OK",
+							});
+						}
+						else{
+							swal({
+								title: "Oops!",
+								text: data.message,
+								icon: "error",
+								button: "OK",
+							});
+						}
+					}
+				});
+			});
+				//timer
+				function startTimer(duration, display) {
+				var timer = duration, minutes, seconds;
+				setInterval(function () {
+					minutes = parseInt(timer / 60, 10);
+					seconds = parseInt(timer % 60, 10);
+
+					minutes = minutes < 10 ? "0" + minutes : minutes;
+					seconds = seconds < 10 ? "0" + seconds : seconds;
+
+					display.textContent = minutes + ":" + seconds;
+
+					if (--timer < 0) {
+						swal({
+							title: "Oops!",
+							text: "Time's up!",
+							icon: "error",
+							button: "OK",
+						});
+						//window reload
+						setTimeout(function(){
+							window.location.reload();
+						}, 1000);
+
+					}
+				}, 1000);
+			}
+
+			$('#start').on('click', function(e){
+				e.preventDefault();
+				var fiveMinutes = 60 * {{round.time}},
+				display = document.querySelector('#time');
+				startTimer(fiveMinutes, display);
+			});
+
+		</script>
+
+     	</body>
+
+	</html>
