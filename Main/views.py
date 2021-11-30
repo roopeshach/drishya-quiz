@@ -80,6 +80,7 @@ def answer_checker(request):
         answer = Answer.objects.get(id=answer_id)
         question = answer.question
         question.is_active = False
+        question.save()
         user_id = request.POST.get('user_id')
         user = User.objects.get(id=user_id)
         if answer.correct:
