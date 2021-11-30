@@ -186,7 +186,7 @@ select {
 				console.log(answer_id);
 				console.log(csrf_token);
 				$.ajax({
-					url: 'http://127.0.0.1:8000/check-answer',
+					url: '/check-answer',
 					type: 'POST',
 					data: {
 						user_id: user_id,
