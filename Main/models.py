@@ -5,6 +5,13 @@ from django.db import models
 #quiz application models
 
 #category model
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+
+
+
 class Round(models.Model):
     name = models.CharField(max_length=100)
     time = models.IntegerField(default=1)
@@ -16,16 +23,16 @@ class Round(models.Model):
         return question
         
 
-    
 #question model
 class Question(models.Model):
     question_text = models.TextField()
     pub_date = models.DateTimeField('date published')
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='questions', height_field=None, width_field=None, max_length=None, blank=True)
     music = models.FileField(upload_to='music_files/', blank=True)
     score = models.IntegerField(default=0)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.question_text
 

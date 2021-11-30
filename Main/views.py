@@ -22,8 +22,8 @@ class GameView(CreateView,LoginRequiredMixin, UserPassesTestMixin):
         round = Round.objects.get(id=round_id)
         question = Question.objects.get(id=question_id)
         answers = Answer.objects.filter(question=question)
-        next_question = Question.objects.filter(round=round).filter(id__gt=question_id).first()
-        previous_question = Question.objects.filter(round=round).filter(id__lt=question_id).last()
+        next_question = Question.objects.filter(round=round).filter(id__gt=question_id).filter(is_active=True).first()
+        previous_question = Question.objects.filter(round=round).filter(id__lt=question_id).filter(is_active=True).last()
         users = User.objects.all()
         context = {
             'round': round,
@@ -45,9 +45,10 @@ class GameView(CreateView,LoginRequiredMixin, UserPassesTestMixin):
         question_id = int(question_id)
         round = Round.objects.get(id=round_id)
         question = Question.objects.get(id=question_id)
+        question.is_active = False
         answers = Answer.objects.filter(question=question)
-        next_question = Question.objects.filter(round=round).filter(id__gt=question_id).first()
-        previous_question = Question.objects.filter(round=round).filter(id__lt=question_id).last()
+        next_question = Question.objects.filter(round=round).filter(id__gt=question_id).filter(is_active=True).first()
+        previous_question = Question.objects.filter(round=round).filter(id__lt=question_id).filter(is_active=True).last()
         users = User.objects.all()
         context = {
             'round': round,
@@ -78,10 +79,12 @@ def answer_checker(request):
         answer_id = request.POST.get('answer_id')
         answer = Answer.objects.get(id=answer_id)
         question = answer.question
+        question.is_active = False
         user_id = request.POST.get('user_id')
         user = User.objects.get(id=user_id)
         if answer.correct:
             user.score += question.score
+
             user.save()
             response = {
                 'correct' : "True",
