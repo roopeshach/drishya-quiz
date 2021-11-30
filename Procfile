@@ -1,1 +1,1 @@
-web: gunicorn dquiz.wsgi 
+web: gunicorn dqiz.wsgi 
