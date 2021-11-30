@@ -40,25 +40,6 @@ select {
 		<!-- <h4 class="text-info ml-4 mt-1">Organized By:</h4> -->
 		<a href="/" > <img style="margin-left:30px;"class=" float-left mt-0 mr-5" src="{% static 'img/csitan.png' %}" alt="CSITAN Pokhara" width="150px"height="100px"> </a>
 
-		<div class="container">
-			<div class="">
-				<div class="card m-3 text-center">
-					<div class="form-check form-check-inline">
-						<select name="user_id"  class="form-control m-2 p-2 text-center select2bs4" id="users">
-							<option value="">Group Name</option>
-							{% for u in users %}
-								<option value="{{u.id}}" class="form-control">{{u.name}}</option>
-							{% endfor %}
-							
-
-						</select>
-						
-					</div>
-
-
-				</div>
-			</div>
-		</div>
 	
 		<div class="wrapper position-relative">
 			<div class="wizard-content-1 clearfix">
@@ -71,6 +52,8 @@ select {
 							<div class="multisteps-form__panel  js-active" data-animation="fadeIn">
 								<div class="wizard-forms clearfix position-relative">
 									{% comment %} question score {% endcomment %}
+									<!--user_id from url-->
+									<input type="hidden" name="user_id" value="{{user.id}}" id="user_id">
 									<div class="mr-5 quiz-score-area text-right">
 										<div class="quiz-score-box">
 											<h4> Question Score : {{question.score}} </h4>
@@ -87,7 +70,7 @@ select {
 
 										</div>
 									<div class="quiz-title text-center">
-										<h2 id="mouse">{{round.name}}</h2>
+										<h2 id="mouse"><a href="/start-game/{{round.id}}">{{round.name}}</a></h2>
 										{% comment %} <span>Question {{forloop.counter}}</span> {% endcomment %}
 										
 										<h4 id="question">{{question.question_text}}</h4>
@@ -143,7 +126,7 @@ select {
 				</div>
 			</div>
 		</div>
-		    <footer style=" height:130px;" class="footer card">
+		    <footer style="margin-top:130px; height:130px;" class="footer card">
       <div class="">
         <div class="row ml-2">
           <div class="col-md-5 ">
@@ -184,7 +167,8 @@ select {
 			$('#submit').on('click', function(e){
 				console.log('clicked');
 				e.preventDefault();
-				var user_id = $('#users').val();
+				var user_id = $("#user_id").val();
+
 				var answer_id = $('input[name=quiz]:checked').val();
 				var csrf_token = $('input[name=csrfmiddlewaretoken]').val();
 				console.log(user_id);
@@ -249,21 +233,9 @@ select {
 
 			$('#start').on('click', function(e){
 				e.preventDefault();
-				var fiveMinutes = 60 * {{round.time}},
+				var thirthySeconds = 60 / 2,
 				display = document.querySelector('#time');
-				startTimer(fiveMinutes, display);
-			});
-
-			// if users id select option is not selcted open a swal alert
-			$('#submit').on('click', function(e){
-				if($('#users').val() == ""){
-					swal({
-						title: "Oops!",
-						text: "Please select a user!",
-						icon: "error",
-						button: "OK",
-					});
-				}
+				startTimer(thirthySeconds, display);
 			});
 
 			//if timer is not started not submit the form

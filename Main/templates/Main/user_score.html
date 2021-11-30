@@ -21,63 +21,30 @@
 
 <div class="row ml-5">
 
-     <div class="col-md-6">
+     <div class="col-md-12">
     	<div class="quiz-title">
-        <h2 id="" class="text-info mt-1">Options</h2>
+        <h2 id="" class="text-info mt-1">Group Score</h2>
       </div>
         <div class="quiz-option-selector ">
           <ul>
-            {% for c in categories %}
-            <a ondblclick="window.location.href='/options/{{c.id}}'">
-              <li style="width: 100%;">
-                <label class="answer text-center" style="width: 50%;">
-                  <input type="radio" name="quiz" value="{{c.id}}" class="exp-option-box">
-                  <span class="exp-label">{{c.name}}</span>
-                  <span class="checkmark-border-wrong"></span>
-                  
-                </label>
-                <!-- number of questions -->
-                
-              </li>
-            </a>
-            {% endfor %}
-    
+          {% for u in users %}
+            <li style="width: 50%;">
+              <label class="answer" style="width: 100%;">
+                <input type="radio" name="quiz" value="{{a.id}}" class="exp-option-box">
+
+                <span class="exp-label">{{forloop.counter|ordinal}} : {{u.name}}</span>
+                <span style="float: right;" class="exp-number text-uppercase">{{u.score}}</span>
+                <span class="checkmark-border-right"></span>
+              </label>
+            </li>
+
+          {% endfor %}	
       
           </ul>
         </div>			
       </div>
 
-      <div class="col-md-6 float-right ">
-        <div class="quiz-title">
-          <h2 id="" class="text-info mt-1">Rounds</h2>
-        
-        </div>
-        
-        <div class="quiz-option-selector  ">
-          <ul>
-          
-            {% for r in rounds %}
-            <a ondblclick="window.location.href='/start-game/{{r.id}}'">
-           
 
-              <li style="width: 100%;">
-                <label class="answer text-center" style="width: 50%;">
-                  <input type="radio" name="quiz" value="{{a.id}}" class="exp-option-box">
-                  <span class="exp-label">{{r.name}}</span>
-                  <span class="checkmark-border-wrong"></span>
-                  
-                </label>
-                <!-- number of questions -->
-                
-              </li>
-            </a>
-            {% endfor %}
-    
-        
-        
-          </ul>
-        </div>
-      </div>
 </div>		
   <footer style=" height:130px;" class="footer card mt-3 pt-1">
       <div class="">

@@ -28,7 +28,8 @@
         <div class="quiz-option-selector ">
           <ul>
             {% for c in categories %}
-            <a ondblclick="window.location.href='/options/{{c.id}}'">
+            {% comment %} <a ondblclick="window.location.href='/round/{{r.id}}/question/{{r.id|first_question}}'"> {% endcomment %}
+
               <li style="width: 100%;">
                 <label class="answer text-center" style="width: 50%;">
                   <input type="radio" name="quiz" value="{{c.id}}" class="exp-option-box">

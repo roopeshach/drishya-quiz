@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Quiz</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/owl.carousel.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet"> 
+	<style>
+
+select {
+    border:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+}
+
+
+	</style>
+  	<body style="font-family: 'Roboto Mono', monospace; ">
+		<div class="quiz-top-area">
+			
+			<h1 class="text-center">connect QUIZ CONTEST - 2021</h1>
+			
+			<div class="quiz-countdown">
+				
+				
+			</div>
+		</div>
+		
+		<!-- <h4 class="text-info ml-4 mt-1">Organized By:</h4> -->
+		<a href="/" > <img style="margin-left:30px;"class=" float-left mt-0 mr-5" src="{% static 'img/csitan.png' %}" alt="CSITAN Pokhara" width="150px"height="100px"> </a>
+
+		<div class="container">
+           
+			<div class="mb-5">
+				<div style="margin-bottom:480px;" class="card mt-3 ">
+
+                      <h3 class="text-info m-2" > Serial Numbers for Round {{round.name}} </h3>
+          
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      {% for q in questions %}
+                      {% if q.is_active == True %}
+                      <button class="btn btn-outline-success ml-2" ><h4> {{q.sn}} </h4></button>
+                    {% else %}
+                    <button class="btn btn-outline-danger ml-2" ><h4> {{q.sn}} </h4></button>
+                    {% endif %}
+                      {% endfor %}
+                        
+                      
+                    </div>
+                     
+                    
+					<div class="form-check form-check-inline">
+                      
+						<select name="user_id"  class="form-control m-2 p-2 text-center select2bs4" id="users">
+							<option value="">Group Name</option>
+							{% for u in users %}
+								<option value="{{u.id}}" class="form-control">{{u.name}}</option>
+							{% endfor %}
+							
+
+						</select>
+                      
+            <br>
+
+            <input type="number" class="form-control" id="sn" placeholder="Serial Numbers">
+					</div>
+                    <br><br><br>
+                    <!--submit button-->
+                    <button class="btn btn-primary m-2" id="submit"><b> Submit</b></button>
+
+
+				</div>
+			</div>
+		</div>
+	
+		    <footer style=" height:130px;" class="footer card">
+      <div class="">
+        <div class="row ml-2">
+          <div class="col-md-5 ">
+            <h5 class="text-info ">Application Partner</h5>
+            <img class="" src="{% static 'img/drishya.png' %}" alt="Drishya Web" width="150px"height="100px">
+          </div>
+          <div class="col-md-5">
+            <h5 class="text-danger">Organized By:</h5>
+            <img class="" src="{% static 'img/csitan.png' %}" alt="CSITAN Pokhara" width="150px"height="100px">
+          </div>
+          <div class="col-md-2">
+            <div class="card mt-3 pb-1 mr-3">
+            <h4 class="text-info mt-3 text-center">
+              Developed By <br>
+              <span class="text-secondary">Rupesh Acharya</span>
+            </h4>
+           </div>
+          </div>
+        {% csrf_token %}
+        </div>
+    
+
+
+      </div>
+    </footer>
+		<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'assets/js/popper.min.js' %}"></script>
+		<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="{% static 'assets/js/form-step.js' %}"></script>
+		<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+		<script src="{% static 'assets/js/main.js' %}"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<!-- <script src="assets/js/switch.js"></script> -->
+	
+		<script>
+            //get serial number from input and send to another page
+            $('#submit').click(function(){
+                console.log('clicked');
+                var user_id = $('#users').val();
+                var sn = $('#sn').val();
+                var csrf_token = $('input[name=csrfmiddlewaretoken]').val();
+                console.log(user_id);
+                console.log(sn);
+                if(user_id == '' || sn == ''){
+                    swal("Oops!", "Please fill all the fields", "error");
+                }else{
+                    $.ajax({
+                        url: '/check_serial',
+                        type: 'POST',
+                        data: {
+                            'user_id': user_id,
+                            'sn': sn,
+                            'round_id': {{round.id}},
+                            'csrfmiddlewaretoken': csrf_token
+                        },
+                        success: function(data){
+                            console.log(data);
+                            var round_id = {{round.id}};
+                            var user_id = data.user_id;
+                            window.location.href = '/round/'+round_id+'/question/'+data.question_id+'/user/'+user_id;
+                        },
+
+
+                            });
+                        }
+                    });
+                
+            
+	
+			
+		</script>
+
+     	</body>
+
+	</html>

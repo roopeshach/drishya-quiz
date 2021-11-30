@@ -26,6 +26,7 @@ class Round(models.Model):
 #question model
 class Question(models.Model):
     question_text = models.TextField()
+    sn = models.IntegerField()
     pub_date = models.DateTimeField('date published')
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
