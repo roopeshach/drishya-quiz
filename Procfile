@@ -1,1 +1,1 @@
-web: gunicorn srmagic.wsgi 
+web: gunicorn dquiz.wsgi 

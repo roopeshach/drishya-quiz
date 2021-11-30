@@ -72,12 +72,23 @@ select {
 									<div class="quiz-title text-center">
 										<h2 id="mouse"><a href="/start-game/{{round.id}}">{{round.name}}</a></h2>
 										{% comment %} <span>Question {{forloop.counter}}</span> {% endcomment %}
+										<div id="question">
+										<h4 >{{question.question_text}}										
+										</h4>
+									
+									</div>
 										
-										<h4 id="question">{{question.question_text}}</h4>
+									{% if question.image %}
+									<img src="{{question.image.url}}" height="200px" width="350px"alt="">
+									{% endif %}
 									</div>
 									
 									<div class="quiz-option-selector clearfix">
+									
+											
+										
 										<ul>
+											
 										{% for a in answers %}
 											<li>
 												<label class="answer">
@@ -101,7 +112,7 @@ select {
 										</ul>
 									</div>
 									
-									<div class="actions clearfix">
+									{% comment %} <div class="actions clearfix">
 										<ul>
 											
 												{% if previous_question.id %}
@@ -116,7 +127,7 @@ select {
 											</li>
 												{% endif %}
 										</ul>
-									</div>
+									</div> {% endcomment %}
 								</div>
 							</div>
 							<!-- step 1 -->
