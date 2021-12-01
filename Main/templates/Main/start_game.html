@@ -46,16 +46,24 @@ select {
 
                       <h3 class="text-info m-2" > Serial Numbers for {{round.name}} </h3>
           
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      {% for q in questions %}
-                      {% if q.is_active == True %}
-                      <button class="btn btn-outline-success ml-2" ><h4> {{q.sn}} </h4></button>
-                    {% else %}
-                    <button class="btn btn-outline-danger ml-2" ><h4> {{q.sn}} </h4></button>
-                    {% endif %}
-                      {% endfor %}
+                    <div class="row">
+                     
                         
-                      
+                          {% for q in questions %}
+                          <div class="col mb-1">
+                          {% if q.is_active == True %}
+                          <button class="btn btn-outline-success ml-2 mb-2 " ><h4> {{q.sn}} </h4></button>
+                          
+                          
+                            {% else %}
+                        <button class="btn btn-outline-danger ml-2" ><h4> {{q.sn}} </h4></button>
+                        {% endif %}
+                          </div>
+                          {% endfor %}
+                            
+                          
+                    
+                    
                     </div>
                      
                     
